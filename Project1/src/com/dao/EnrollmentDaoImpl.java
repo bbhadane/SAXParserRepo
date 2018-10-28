@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
 
 import com.Main.DBConnection;
@@ -80,6 +80,37 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		return CourseList;
 		}
 	
+	public HashMap<Integer,Integer> getCourseOfStudentAndMarksObtained(int sid)
+	{
+			HashMap<Integer,Integer>CourseAndMarksObtained=new HashMap<Integer,Integer>();
+			try{
+				Connection connection=DBConnection.getConnection();
+				String sqlQuery="select * from "+TABLEEnrollment+" where "+COLsid+"="+"?";
+				PreparedStatement pst = connection.prepareStatement(sqlQuery);
+				pst.setInt(1, sid);
+				pst.executeQuery();
+				ResultSet rs=pst.getResultSet();
+				while(rs.next())
+				{
+//					//int sid=rs.getInt(COLsid);
+//					int cid=rs.getInt(COLcid);
+//					//new CourseDaoImpl.getC(cid);
+//					CourseList.add(new CourseDaoImpl().getCourse(cid));
+					
+					int cid=rs.getInt("cid");
+					int marks=rs.getInt("marks");
+					
+					CourseAndMarksObtained.put(cid, marks);
+					
+					
+				}
+					return  CourseAndMarksObtained;
+			}catch (SQLException ex) {
+						
+						ex.printStackTrace();
+					}
+			return CourseAndMarksObtained;
+			}
 			
 			@Override
 			public Enrollment addEnrollment(Enrollment e){
@@ -89,7 +120,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 				try
 				{
 				Connection connection=DBConnection.getConnection();
-				String sqlQuery="insert into "+TABLEEnrollment+" values (?,?,?,?,?)";
+				String sqlQuery="insert into "+TABLEEnrollment+" values (?,?,?,?,?,NULL)";
 				
 				PreparedStatement pst = connection.prepareStatement(sqlQuery);
 				
@@ -99,7 +130,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 				pst.setDate(4, e.getEnrollmentDate());
 				pst.setInt(5,e.getPaidFees());
 				
-				pst.executeQuery();
+				pst.executeUpdate();
 				//allEnrollmentList.add(e);
 				
 				} catch (SQLException ex) {

@@ -3,16 +3,24 @@ package com.model;
 public class preReq {
 	int cid;
 	int preReqCid;
+	int minMksReq;
 	
-	
+	public int getMinMksReq() {
+		return minMksReq;
+	}
+	public void setMinMksReq(int minMksReq) {
+		this.minMksReq = minMksReq;
+	}
 	public preReq() {
 		super();
 		
 	}
-	public preReq(int cid, int preReqCid) {
+	
+	public preReq(int cid, int preReqCid, int minMksReq) {
 		super();
 		this.cid = cid;
 		this.preReqCid = preReqCid;
+		this.minMksReq = minMksReq;
 	}
 	public int getCid() {
 		return cid;
@@ -28,8 +36,9 @@ public class preReq {
 	}
 	@Override
 	public String toString() {
-		return "preReq [cid=" + cid + ", preReqCid=" + preReqCid + "]";
+		return "preReq [cid=" + cid + ", preReqCid=" + preReqCid + ", minMksReq=" + minMksReq + "]";
 	}
+	
 	
 	
 
